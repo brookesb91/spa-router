@@ -2,7 +2,6 @@
   "name": "spa-router",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "demo": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
