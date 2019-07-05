@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="router.js"></script>
+  <base href="/">
+</head>
+
+<body>
+  <nav>
+    <a data-link="/" href="/">Home</a>
+    <a data-link="/about" href="/about">About</a>
+  </nav>
+  <main id="router-outlet"></main>
+
+  <template id="home" data-route="/">
+    <h1>Hello From Home</h1>
+  </template>
+
+  <template id="about" data-route="/about">
+    <h1>Hello From About</h1>
+  </template>
+
+  <script type="text/javascript">
+    (function (window, document) {
+      window.router = new Router('router-outlet');
+    })(window, document)
+  </script>
+</body>
+
+</html>

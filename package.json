@@ -1,0 +1,27 @@
+{
+  "name": "spa-router",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "uglifyjs src/router.js --output build/router.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brookesb91/spa-router.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brookesb91/spa-router/issues"
+  },
+  "homepage": "https://github.com/brookesb91/spa-router#readme",
+  "devDependencies": {
+    "uglify-js": "^3.6.0"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
