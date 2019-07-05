@@ -1,0 +1,76 @@
+template[data-route] {
+  display: none;
+}
+
+.router-outlet {
+  position: relative;
+}
+
+.router-outlet > * {
+  opacity: 0;
+  animation: fade-in ease 0.7s forwards, from-left ease 1s forwards;
+}
+
+.router-outlet > .router-view-unloading {
+  animation: fade-out ease 0.7s, forwards, from-right ease 1s reverse;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes from-bottom {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes from-left {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes from-right {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes from-top {
+  from {
+    transform: translateY(-100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}

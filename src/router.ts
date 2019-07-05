@@ -1,47 +1,109 @@
-type HandlerFn = (target: HTMLElement, done: () => any) => void;
 type RouterEvent = 'load' | 'unload';
+type RouterEventPromise = Promise<HTMLElement> | HTMLElement;
+type RouterEventHandlerFn = (target: HTMLElement) => RouterEventPromise;
 
 class Router {
-  private listeners: Map<RouterEvent, HandlerFn[]> = new Map();
-  private outlet: HTMLElement;
+  private currentView!: HTMLElement;
+  private outlet!: HTMLElement;
 
-  constructor(outletId: string) {
-    this.setupOutlet(outletId);
-  }
+  listeners: Map<RouterEvent, RouterEventHandlerFn[]> = new Map();
 
-  on(event: RouterEvent, handler: HandlerFn) {
-    const handlers = [handler];
-    if (this.listeners.has(event)) {
-      handlers.concat(this.listeners.get(event));
-    }
+  constructor() { }
+
+  /**
+   *
+   * @param event Event to fire on
+   * @param handler Handler function that takes the target element as an
+   * argument and returns a promise that resolves a HTMLElement
+   */
+  on(
+    event: RouterEvent,
+    handler: (target: HTMLElement) => Promise<HTMLElement>
+  ) {
+
+    if (!this.listeners.has(event)) return;
+
+    const handlers = [...this.listeners.get(event) || []];
+    handlers.concat(handler);
     this.listeners.set(event, handlers);
   }
 
-  use(plugin: any) { }
-
-  notify(event: RouterEvent, target: HTMLElement, done: () => any) {
+  notify(
+    event: RouterEvent,
+    target: HTMLElement,
+    handler: RouterEventHandlerFn
+  ) {
     if (this.listeners.has(event)) {
-      for (let i = 0; i < this.listeners.get(event).length; i++) {
-        const current = this.listeners.get(event)[i];
-        const next = this.listeners.get(event)[i + 1] || null;
-        // current(target, next);
-      }
+      return [...this.listeners.get(event) || []]
+        .reduce((current, next) => {
+          return current.then(next);
+        }, Promise.resolve(target))
+        .then(el => handler(el));
     }
-
-    done();
+    handler(target);
   }
 
-  private navigate() { }
-  private loadView() { }
-  private unloadView() { }
-  private registerPopStateListener() { }
-  private registerClickEvents() { }
-  private setupOutlet(outletId: string) {
-    if (!document.getElementById(outletId)) {
-      throw 'No outlet found with the given ID';
-    }
-    this.outlet = document.getElementById(outletId);
+  private navigate(path: string) {
+    this.unloadView().then(target => {
+      window.history.pushState({}, window.location.origin + path);
+      this.loadView(path);
+    });
   }
+
+  private loadView(path: string) {
+    const next = this.getNextView(path);
+    if (!next) throw `No Template Found For ${path}`;
+
+    const view = document.createElement('div');
+    view.classList.add('router-view');
+    view.setAttribute('data-router-view', path);
+    view.appendChild(document.importNode(next.content, true));
+    this.outlet.appendChild(view);
+
+    return this.notify('load', view, el => this.currentView = el);
+
+  }
+
+  private unloadView() {
+    return this.notify('unload', this.currentView, el => {
+      this.clearChildren(this.outlet)
+      return el;
+    });
+  }
+
+  private getNextView(path: string) {
+    return <HTMLTemplateElement>(
+      document.querySelector(`template[data-route='${path}']`)
+    );
+  }
+
+  private registerWindowListener() {
+    window.addEventListener('popstate', this.handlePopState, false);
+  }
+
+  private registerClickEvents() {
+    document.addEventListener('click', this.handleClick, false);
+  }
+
+  private handleClick(event: Event) {
+    const target = <HTMLElement>event.target;
+    if (!target.matches('[data-link]')) return;
+    event.preventDefault();
+    const path = String(target.getAttribute('data-link'));
+    if (window.location.pathname === path) return;
+    this.navigate(path);
+  }
+
+  private handlePopState() {
+    this.navigate(window.location.pathname);
+  }
+
+  private setupOutlet(outletId) {
+    if (!!document.getElementById(outletId)) {
+      this.outlet = document.getElementById(outletId);
+    }
+  }
+
   private clearChildren(element: HTMLElement) {
     while (element.firstChild) {
       element.removeChild(element.firstChild);

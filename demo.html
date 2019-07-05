@@ -2,12 +2,13 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  <script src="router.js"></script>
-  <base href="/">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>SPA Router Demo</title>
+  <link rel="stylesheet" href="router-animations.css" />
+  <script src="build/router.js"></script>
+  <script src="build/plugins/router-animations.js"></script>
 </head>
 
 <body>
@@ -15,20 +16,21 @@
     <a data-link="/" href="/">Home</a>
     <a data-link="/about" href="/about">About</a>
   </nav>
-  <main id="router-outlet"></main>
 
-  <template id="home" data-route="/">
+  <main id="router-outlet" class="router-outlet"></main>
+
+  <template data-route="/">
     <h1>Hello From Home</h1>
   </template>
 
-  <template id="about" data-route="/about">
+  <template data-route="/about">
     <h1>Hello From About</h1>
   </template>
 
   <script type="text/javascript">
-    (function (window, document) {
-      window.router = new Router('router-outlet');
-    })(window, document)
+    (function () {
+      new Router('router-outlet').use(RouterAnimations);
+    })(window, document);
   </script>
 </body>
 
