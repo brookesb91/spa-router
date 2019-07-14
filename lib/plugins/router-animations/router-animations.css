@@ -6,13 +6,15 @@ template[data-route] {
   position: relative;
 }
 
+/* In View */
 .router-outlet > * {
   opacity: 0;
-  animation: fade-in ease 0.7s forwards, from-left ease 1s forwards;
+  animation: fade-in ease 0.8s forwards, from-left ease 0.8s forwards;
 }
 
+/* Leaving View */
 .router-outlet > .router-view-unloading {
-  animation: fade-out ease 0.7s, forwards, from-right ease 1s reverse;
+  animation: fade-out ease-in-out 0.8s, forwards, from-right ease 0.8s reverse;
 }
 
 @keyframes fade-in {

@@ -7,25 +7,49 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>SPA Router Demo</title>
   <base href="/">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css">
   <link rel="stylesheet" href="lib/plugins/router-animations/router-animations.css" />
   <script src="lib/router.js"></script>
   <script src="lib/plugins/router-animations/router-animations.js"></script>
 </head>
 
 <body>
-  <nav>
-    <a data-link="/" href="/">Home</a>
-    <a data-link="/about" href="/about">About</a>
+  <nav class="navbar" role="navigation" aria-label="main navigation" style="position: fixed; top: 0; width: 100%;">
+    <a class="navbar-item" data-link="/" href="/">Home</a>
+    <a class="navbar-item" data-link="/about" href="/about">About</a>
+    <a class="navbar-item" data-link="/services" href="/services">Services</a>
   </nav>
 
   <main id="router-outlet" class="router-outlet"></main>
 
   <template data-route="/">
-    <h1>Hello From Home</h1>
+    <section class="hero is-info is-fullheight">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">Hello From Home</h1>
+        </div>
+      </div>
+    </section>
   </template>
 
   <template data-route="/about">
-    <h1>Hello From About</h1>
+    <section class="hero is-success is-fullheight">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">Hello From About</h1>
+        </div>
+      </div>
+    </section>
+  </template>
+
+  <template data-route="/services">
+    <section class="hero is-danger is-fullheight">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">Hello From Services</h1>
+        </div>
+      </div>
+    </section>
   </template>
 
   <script type="text/javascript">
