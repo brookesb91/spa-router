@@ -4,6 +4,8 @@ Simple single page router with plugin functionality.
 
 Note that this is a very simple implementation of single page routing and suitable for small projects.
 
+[View Demo](https://spa-router.herokuapp.com)
+
 ## Usage
 
 Include `router.js`
