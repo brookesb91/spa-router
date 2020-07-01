@@ -2,7 +2,7 @@
 
 Simple single page router with plugin functionality.
 
-Note that this is a very simple implementation of single page routing and suitable for small projects.
+> Note that this is a very simple implementation of single page routing and suitable for small projects.
 
 [View Demo](https://spa-router.herokuapp.com)
 
@@ -18,7 +18,7 @@ Include `router.js`
   <!-- Include any router plugins, as an example,
       router animations -->
   <script src="path/to/plugins/router-animations.js"></script>
-  <link rel="stylesheet" href="path/to/plugins/router-animations.css"/>
+  <link rel="stylesheet" href="path/to/plugins/router-animations.css" />
 </head>
 ```
 
@@ -53,7 +53,7 @@ Add the `data-route` attribute to specify the path at which this template will b
 Initialise the router
 
 ```javascript
-(function(){
+(function () {
   var router = new Router('router-outlet');
 })();
 ```
@@ -63,14 +63,14 @@ Initialise the router
 Router plugins are defined as functions that take a `Router` ìnstance as an argument.
 
 ```js
-function MyRouterPlugin(router){
+function MyRouterPlugin(router) {
   // Now, router events can be listened to
   // Router events can be listened to by specifying the event name and passing a function that takes a HTMLElement as an argument
 
   // Router unload event.
   // Param `target` is the unloading element
-  router.on('unload', function(target){
-    return new Promise(function(resolve){
+  router.on('unload', function (target) {
+    return new Promise(function (resolve) {
       // Do some stuff with target
       resolve(target);
     });
@@ -78,25 +78,24 @@ function MyRouterPlugin(router){
 
   // Router load event
   // Param `target` is the loading element
-  router.on('load', function(target){
-    return new Promise(function(resolve){
+  router.on('load', function (target) {
+    return new Promise(function (resolve) {
       // Load stuff
       resolve(target);
-    })
-  })
+    });
+  });
 }
 ```
 
 Register your plugin
 
 ```javascript
-(function(){
+(function () {
   var router = new Router('router-outlet');
   // Here
   router.use(MyRouterPlugin);
 })();
 ```
-
 
 ## Demo
 
